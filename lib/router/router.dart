@@ -2,7 +2,7 @@ import 'package:demo/feature/home/home_binding.dart';
 import 'package:demo/feature/login/login_binding.dart';
 import 'package:demo/feature/login/login_view.dart';
 import 'package:demo/feature/home/home_view.dart';
-import 'package:demo/signup.dart';
+import 'package:demo/signup/signup_view.dart';
 import 'package:get/get.dart';
 
 class AppRouter {
@@ -18,7 +18,7 @@ class AppRouter {
     // Signup
     GetPage(
       name: AppRouterNamed.signUp,
-      page: () => const SignUpPage(),
+      page: () => const SignUpPage(title: '/signup'),
     ),
     GetPage(
       name: AppRouterNamed.homepage,
