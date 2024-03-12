@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_arguments.dart';
-import 'package:demo/models/login_request.dart';
-import 'package:demo/network/configs/data_state.dart';
-import 'package:demo/network/repositories/login_repository.dart';
 import 'package:demo/router/router.dart';
 import 'package:get/get.dart';
 
@@ -53,28 +50,28 @@ class LoginController extends GetxController {
         password: passwordController.text,
       ),
     );
-    final emailValue = emailController.text;
-    final passwordValue = passwordController.text;
+    // final emailValue = emailController.text;
+    // final passwordValue = passwordController.text;
 
-    final LoginRequest loginRequest = LoginRequest(
-      email: emailValue,
-      password: passwordValue,
-    );
-    isLoading.value = true;
-    final loginReponseFromRepo = await LoginRepository().login(loginRequest);
-    isLoading.value = false;
-    if (loginReponseFromRepo is DataSuccess) {
-      Get.toNamed(
-        AppRouterNamed.homepage,
-        arguments: HomeArguments(
-          username: emailController.text,
-          password: passwordController.text,
-        ),
-      );
-    }
-    if (loginReponseFromRepo is DataFailed) {
-      _showErrorLoginDialog();
-    }
+    // final LoginRequest loginRequest = LoginRequest(
+    //   email: emailValue,
+    //   password: passwordValue,
+    // );
+    // isLoading.value = true;
+    // final loginReponseFromRepo = await LoginRepository().login(loginRequest);
+    // isLoading.value = false;
+    // if (loginReponseFromRepo is DataSuccess) {
+    //   Get.toNamed(
+    //     AppRouterNamed.homepage,
+    //     arguments: HomeArguments(
+    //       username: emailController.text,
+    //       password: passwordController.text,
+    //     ),
+    //   );
+    // }
+    // if (loginReponseFromRepo is DataFailed) {
+    //   _showErrorLoginDialog();
+    // }
   }
 
   Future<dynamic> _showErrorLoginDialog() {
