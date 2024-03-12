@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:demo/signup/signup_controller.dart';
+import 'package:demo/feature/signup/signup_controller.dart';
 import 'package:get/get.dart';
 
 class SignUpPage extends StatelessWidget {

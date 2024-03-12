@@ -2,7 +2,7 @@ import 'package:demo/feature/home/home_binding.dart';
 import 'package:demo/feature/login/login_binding.dart';
 import 'package:demo/feature/login/login_view.dart';
 import 'package:demo/feature/home/home_view.dart';
-import 'package:demo/signup/signup_view.dart';
+import 'package:demo/feature/signup/signup_view.dart';
 import 'package:get/get.dart';
 
 class AppRouter {
