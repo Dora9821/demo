@@ -30,7 +30,7 @@ class AppText {
         ),
         const TextStyle(
           fontSize: 18,
-          color: Color.fromARGB(255, 6, 114, 202),
+          color: Color.fromARGB(255, 1, 70, 35),
         ),
       );
 }
