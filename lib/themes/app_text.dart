@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 
 class AppText {
   final TextStyle appbarText;
-  final TextStyle bodyText;
   final TextStyle buttonText;
 
   AppText._(
     this.appbarText,
-    this.bodyText,
     this.buttonText,
   );
 
@@ -18,13 +16,9 @@ class AppText {
           fontSize: 20,
           color: Color.fromARGB(255, 26, 20, 198),
         ),
-        TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-        ),
-        TextStyle(
+        const TextStyle(
           fontSize: 18,
-          color: Colors.black,
+          color: Color.fromARGB(255, 21, 1, 109),
         ),
       );
 
@@ -34,13 +28,9 @@ class AppText {
           fontSize: 20,
           color: Colors.black,
         ),
-        TextStyle(
-          fontSize: 21,
-          color: Colors.black,
-        ),
-        TextStyle(
-          fontSize: 22,
-          color: Colors.black,
+        const TextStyle(
+          fontSize: 18,
+          color: Color.fromARGB(255, 6, 114, 202),
         ),
       );
 }
