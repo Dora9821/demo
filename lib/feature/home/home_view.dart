@@ -1,3 +1,4 @@
+import 'package:demo/themes/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_arguments.dart';
 import 'package:demo/feature/home/home_controller.dart';
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
   final controller = Get.find<HomeController>();
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +30,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final argument = Get.arguments as HomeArguments;
+    final themeController = Get.find<ThemeController>();
+    final themeData = themeController.themeData;
 
-    return Stack(
-      children: [
-        Scaffold(
-          body: Center(
-            child: Obx(
-              () => RefreshIndicator(
+    return Obx(
+      () => Stack(
+        children: [
+          Scaffold(
+            backgroundColor: themeData.value.color.boldBackground,
+            body: Center(
+              child: RefreshIndicator(
                 onRefresh: () async {
                   controller.getTopMangaResponse();
                 },
@@ -43,6 +48,12 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      TextButton(
+                        onPressed: () {
+                          themeController.changeTheme();
+                        },
+                        child: const Text("Change Theme"),
+                      ),
                       if (controller.getTopMangaStatus.value ==
                               GetTopMangaStatus.loaded ||
                           controller.getTopMangaStatus.value ==
@@ -84,24 +95,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-        ),
-        Obx(
-          () =>
-              controller.getTopMangaStatus.value == GetTopMangaStatus.isLoading
-                  ? Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.black.withOpacity(0.6),
-                      child: const Center(
-                        child: SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: CircularProgressIndicator(),
-                        ),
-                      ))
-                  : const SizedBox.shrink(),
-        )
-      ],
+          Obx(
+            () => controller.getTopMangaStatus.value ==
+                    GetTopMangaStatus.isLoading
+                ? Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.black.withOpacity(0.6),
+                    child: const Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ))
+                : const SizedBox.shrink(),
+          )
+        ],
+      ),
     );
   }
 }

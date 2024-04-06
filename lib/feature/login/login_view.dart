@@ -1,7 +1,7 @@
+import 'package:demo/themes/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/login/login_controller.dart';
 import 'package:demo/router/router.dart';
-
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
@@ -11,47 +11,71 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<LoginController>();
+    final themeController = Get.find<ThemeController>();
+    final themeData = themeController.themeData;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Form(
-              key: controller.formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // user name
-                    TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: controller.emailController,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          backgroundColor: themeData.value.color.lightBackground,
+          title: Text(
+            title,
+            style: themeData.value.text.appbarText,
+          ),
+        ),
+        backgroundColor: themeData.value.color.boldBackground,
+        body: Stack(
+          children: [
+            SafeArea(
+              child: Form(
+                key: controller.formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          themeController.changeTheme();
+                        },
+                        child: Text(
+                          "Change Theme",
+                          style: themeData.value.text.buttonText,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400),
-                        ),
-                        fillColor: Colors.grey.shade200,
-                        filled: true,
-                        hintText: 'Username',
                       ),
-                      onChanged: controller.onChangeUsername,
-                      validator: controller.validatorUsername,
-                    ),
+                      Icon(
+                        Icons.my_library_music,
+                        size: 100,
+                        color: themeData.value.color.primary,
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      // user name
+                      TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: controller.emailController,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade400),
+                          ),
+                          fillColor: Colors.grey.shade200,
+                          filled: true,
+                          hintText: 'Username',
+                        ),
+                        onChanged: controller.onChangeUsername,
+                        validator: controller.validatorUsername,
+                      ),
 
-                    const SizedBox(
-                      height: 20,
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-                    //password
-                    Obx(
-                      () => TextFormField(
+                      //password
+
+                      TextFormField(
                         controller: controller.passwordController,
                         obscureText: !controller.showPassword.value,
                         decoration: InputDecoration(
@@ -74,53 +98,53 @@ class LoginPage extends StatelessWidget {
                         onChanged: controller.onChangePassword,
                         validator: controller.validatorPassword,
                       ),
-                    ),
 
-                    const SizedBox(
-                      height: 20,
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-                    // button login
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: controller.onSubmitLogin,
-                        child: const Text(
-                          'Sign In',
-                          textAlign: TextAlign.center,
+                      // button login
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: controller.onSubmitLogin,
+                          child: const Text(
+                            'Sign In',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.toNamed(AppRouterNamed.signUp);
-                        },
-                        child: const Text(
-                          'Sign up',
-                          textAlign: TextAlign.center,
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(AppRouterNamed.signUp);
+                          },
+                          child: const Text(
+                            'Sign up',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Obx(
-            () => (controller.isLoading.value)
-                ? Container(
-                    color: Colors.black.withOpacity(0.8),
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.blue,
+            Obx(
+              () => (controller.isLoading.value)
+                  ? Container(
+                      color: Colors.black.withOpacity(0.8),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          )
-        ],
+                    )
+                  : const SizedBox.shrink(),
+            )
+          ],
+        ),
+        // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
