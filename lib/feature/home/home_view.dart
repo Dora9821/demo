@@ -1,6 +1,11 @@
+import 'dart:ffi';
+import 'dart:ui';
+
+import 'package:demo/consts/colors.dart';
+import 'package:demo/consts/text_style.dart';
 import 'package:demo/themes/theme_controller.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:demo/feature/home/home_arguments.dart';
 import 'package:demo/feature/home/home_controller.dart';
 import 'package:get/get.dart';
 
@@ -14,22 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
   final controller = Get.find<HomeController>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.getTopMangaResponse();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        controller.getTopMangaResponse();
-      }
-    });
-  }
+  final _nameController = TextEditingController();
+  final _quantityController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _colorController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final argument = Get.arguments as HomeArguments;
     final themeController = Get.find<ThemeController>();
     final themeData = themeController.themeData;
 
@@ -38,79 +34,81 @@ class _HomePageState extends State<HomePage> {
         children: [
           Scaffold(
             backgroundColor: themeData.value.color.boldBackground,
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search,
+                      color: bgColor,
+                    ))
+              ],
+              leading: Icon(
+                Icons.sort_rounded,
+                color: bgColor,
+              ),
+              title: Text(
+                "Music",
+                style: ourStyle(),
+              ),
+            ),
             body: Center(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  controller.getTopMangaResponse();
-                },
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          themeController.changeTheme();
-                        },
-                        child: const Text("Change Theme"),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        labelText: "Name",
                       ),
-                      if (controller.getTopMangaStatus.value ==
-                              GetTopMangaStatus.loaded ||
-                          controller.getTopMangaStatus.value ==
-                              GetTopMangaStatus.loadmore)
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.listMangaItem.length,
-                            itemBuilder: (context, index) {
-                              final item = controller.listMangaItem[index];
-
-                              return Column(
-                                children: [
-                                  Image.network(item?.coverUrl ?? ""),
-                                  Text(item?.name ?? ""),
-                                  Text("View count: ${item?.viewsCount ?? ""}"),
-                                ],
-                              );
-                            }),
-                      if (controller.getTopMangaStatus.value ==
-                          GetTopMangaStatus.loadmore)
-                        const Center(
-                          child: SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      if (controller.getTopMangaStatus.value ==
-                          GetTopMangaStatus.failed)
-                        const Center(
-                          child: Text(
-                            "Đã có lỗi xảy ra. Vui lòng thử lại!",
-                          ),
-                        )
-                    ],
+                    ),
                   ),
-                ),
+                  TextField(
+                    controller: _quantityController,
+                    decoration: InputDecoration(
+                      labelText: "Number",
+                    ),
+                  ),
+                  TextField(
+                    controller: _priceController,
+                    decoration: InputDecoration(
+                      labelText: "Price",
+                    ),
+                  ),
+                  TextField(
+                    controller: _colorController,
+                    decoration: InputDecoration(
+                      labelText: "Color",
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      DatabaseReference postListRef =
+                          FirebaseDatabase.instance.ref("products");
+
+                      DatabaseReference newPostRef = postListRef.push();
+
+                      newPostRef.set({
+                        "name": _nameController.text,
+                        "quantity": _quantityController.text,
+                        "price": _priceController.text,
+                        "color": _colorController.text,
+                      }).then((value) {
+                        Get.snackbar("Success", "Create product success");
+                      }).catchError((error) {
+                        Get.snackbar("Error",
+                            "Create product error " + error.toString());
+                      });
+                    },
+                    child: const Text(
+                      "Create product",
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          Obx(
-            () => controller.getTopMangaStatus.value ==
-                    GetTopMangaStatus.isLoading
-                ? Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.black.withOpacity(0.6),
-                    child: const Center(
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ))
-                : const SizedBox.shrink(),
-          )
         ],
       ),
     );

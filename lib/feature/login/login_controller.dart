@@ -1,3 +1,5 @@
+import 'package:demo/feature/authentication/firebase_authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_arguments.dart';
 import 'package:demo/router/router.dart';
@@ -43,13 +45,17 @@ class LoginController extends GetxController {
   }
 
   onSubmitLogin() async {
-    return Get.toNamed(
-      AppRouterNamed.homepage,
-      arguments: HomeArguments(
-        username: emailController.text,
-        password: passwordController.text,
-      ),
+    FirebaseAuthentication.signInWithEmailAndPassWord(
+      emailController.text,
+      passwordController.text,
     );
+    // return Get.toNamed(
+    //   AppRouterNamed.homepage,
+    //   arguments: HomeArguments(
+    //     username: emailController.text,
+    //     password: passwordController.text,
+    //   ),
+    // );
     // final emailValue = emailController.text;
     // final passwordValue = passwordController.text;
 

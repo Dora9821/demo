@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "830832696264",
+    "firebase_url": "https://musicapp-8feab-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "musicapp-8feab",
+    "storage_bucket": "musicapp-8feab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830832696264:android:0961a99df8fa3b840dfefd",
+        "android_client_info": {
+          "package_name": "com.example.demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaPwqqxhK15s9W3kr5OyU2jsec5I8ZnPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

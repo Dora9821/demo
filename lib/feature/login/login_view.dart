@@ -1,3 +1,4 @@
+import 'package:demo/consts/colors.dart';
 import 'package:demo/themes/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/login/login_controller.dart';
@@ -23,7 +24,7 @@ class LoginPage extends StatelessWidget {
             style: themeData.value.text.appbarText,
           ),
         ),
-        backgroundColor: themeData.value.color.boldBackground,
+        backgroundColor: bgDarkColor,
         body: Stack(
           children: [
             SafeArea(
@@ -112,6 +113,9 @@ class LoginPage extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       Center(
                         child: ElevatedButton(
