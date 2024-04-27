@@ -1,13 +1,20 @@
-import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:demo/consts/colors.dart';
 import 'package:demo/consts/text_style.dart';
+import 'package:demo/feature/widgets/playlist_card.dart';
+import 'package:demo/models/playlist_model.dart';
+import 'package:demo/models/song_model.dart';
+import 'package:demo/feature/widgets/section_header.dart';
+import 'package:demo/feature/widgets/song_card.dart';
 import 'package:demo/themes/theme_controller.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_controller.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,89 +35,217 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
     final themeData = themeController.themeData;
+    List<Song> songs = Song.songs;
+    List<Playlist> playlists = Playlist.playlists;
 
-    return Obx(
-      () => Stack(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.deepPurple.shade800.withOpacity(0.8),
+            Colors.deepPurple.shade200.withOpacity(0.8),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: const _CustomAppBar(),
+        bottomNavigationBar: const _CustomNavBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const _DiscoverMusic(),
+              _TrendingMusic(songs: songs),
+              _PlaylistMusic(playlists: playlists)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PlaylistMusic extends StatelessWidget {
+  const _PlaylistMusic({
+    super.key,
+    required this.playlists,
+  });
+
+  final List<Playlist> playlists;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
         children: [
-          Scaffold(
-            backgroundColor: themeData.value.color.boldBackground,
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.search,
-                      color: bgColor,
-                    ))
-              ],
-              leading: Icon(
-                Icons.sort_rounded,
-                color: bgColor,
-              ),
-              title: Text(
-                "Music",
-                style: ourStyle(),
-              ),
-            ),
-            body: Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: "Name",
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: _quantityController,
-                    decoration: InputDecoration(
-                      labelText: "Number",
-                    ),
-                  ),
-                  TextField(
-                    controller: _priceController,
-                    decoration: InputDecoration(
-                      labelText: "Price",
-                    ),
-                  ),
-                  TextField(
-                    controller: _colorController,
-                    decoration: InputDecoration(
-                      labelText: "Color",
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      DatabaseReference postListRef =
-                          FirebaseDatabase.instance.ref("products");
-
-                      DatabaseReference newPostRef = postListRef.push();
-
-                      newPostRef.set({
-                        "name": _nameController.text,
-                        "quantity": _quantityController.text,
-                        "price": _priceController.text,
-                        "color": _colorController.text,
-                      }).then((value) {
-                        Get.snackbar("Success", "Create product success");
-                      }).catchError((error) {
-                        Get.snackbar("Error",
-                            "Create product error " + error.toString());
-                      });
-                    },
-                    child: const Text(
-                      "Create product",
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const SectionHeader(title: 'Playlists'),
+          ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(top: 20),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: playlists.length,
+            itemBuilder: ((context, index) {
+              return PlaylistCard(playlist: playlists[index]);
+            }),
           ),
         ],
       ),
     );
   }
+}
+
+class _TrendingMusic extends StatelessWidget {
+  const _TrendingMusic({
+    super.key,
+    required this.songs,
+  });
+
+  final List<Song> songs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, top: 20.0, bottom: 20.0),
+      child: Column(
+        children: [
+          const Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: SectionHeader(title: 'Trengding Music'),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.27,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: songs.length,
+              itemBuilder: (context, index) {
+                return SongCard(song: songs[index]);
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoverMusic extends StatelessWidget {
+  const _DiscoverMusic({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Welcome', style: Theme.of(context).textTheme.bodyLarge),
+          Text(
+            'Enjoy your favourite music',
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+              isDense: true,
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Search',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Colors.grey.shade400),
+              prefixIcon: Icon(
+                Icons.search,
+                color: Colors.grey.shade400,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _CustomNavBar extends StatelessWidget {
+  const _CustomNavBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.deepPurple.shade800,
+      unselectedItemColor: Colors.white,
+      selectedItemColor: Colors.white,
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite_outline),
+          label: 'Favourites',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.play_circle_outline),
+          label: 'Play',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people_outline),
+          label: 'Profile',
+        ),
+      ],
+    );
+  }
+}
+
+class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _CustomAppBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: const Icon(
+        Icons.grid_view_rounded,
+        color: Colors.white,
+      ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 20),
+          child: const CircleAvatar(
+            backgroundImage: NetworkImage(
+                'https://i.pinimg.com/1200x/c4/70/26/c47026a9fce3fc13e7f8c115b5d7676c.jpg'),
+          ),
+        )
+      ],
+      title: Text(
+        "Music",
+        style: ourStyle(),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(56.0);
 }

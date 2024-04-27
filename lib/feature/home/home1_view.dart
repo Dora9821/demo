@@ -77,6 +77,70 @@
 //                 );
 //               }
 //             }
-//             return;),);
+//             return ;),);
 //   }
 // }
+
+
+
+
+
+
+
+
+        // body: Center(
+        //   child: Column(
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: TextField(
+        //           controller: _nameController,
+        //           decoration: InputDecoration(
+        //             labelText: "Name",
+        //           ),
+        //         ),
+        //       ),
+        //       TextField(
+        //         controller: _quantityController,
+        //         decoration: InputDecoration(
+        //           labelText: "Number",
+        //         ),
+        //       ),
+        //       TextField(
+        //         controller: _priceController,
+        //         decoration: InputDecoration(
+        //           labelText: "Price",
+        //         ),
+        //       ),
+        //       TextField(
+        //         controller: _colorController,
+        //         decoration: InputDecoration(
+        //           labelText: "Color",
+        //         ),
+        //       ),
+        //       TextButton(
+        //         onPressed: () {
+        //           DatabaseReference postListRef =
+        //               FirebaseDatabase.instance.ref("products");
+
+        //           DatabaseReference newPostRef = postListRef.push();
+
+        //           newPostRef.set({
+        //             "name": _nameController.text,
+        //             "quantity": _quantityController.text,
+        //             "price": _priceController.text,
+        //             "color": _colorController.text,
+        //           }).then((value) {
+        //             Get.snackbar("Success", "Create product success");
+        //           }).catchError((error) {
+        //             Get.snackbar("Error",
+        //                 "Create product error " + error.toString());
+        //           });
+        //         },
+        //         child: const Text(
+        //           "Create product",
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),

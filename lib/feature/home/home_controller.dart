@@ -11,17 +11,25 @@ enum GetTopMangaStatus {
   loadmore,
 }
 
+enum GetMusicChartStatus {
+  initial,
+  isLoading,
+  loaded,
+  failed,
+  loadmore,
+}
+
 class HomeController extends GetxController {
   final listMangaItem = <MangaItem?>[].obs;
-  final getTopMangaStatus = GetTopMangaStatus.initial.obs;
+  final getTopMangaStatus = GetMusicChartStatus.initial.obs;
   final currentPage = 0.obs;
 
   void getTopMangaResponse() async {
     currentPage.value++;
     if (currentPage.value != 1) {
-      getTopMangaStatus.value = GetTopMangaStatus.loadmore;
+      getTopMangaStatus.value = GetMusicChartStatus.loadmore;
     } else {
-      getTopMangaStatus.value = GetTopMangaStatus.isLoading;
+      getTopMangaStatus.value = GetMusicChartStatus.isLoading;
     }
 
     final getTopMangaResponse = await HomeRepository().getTopManga(
@@ -30,10 +38,10 @@ class HomeController extends GetxController {
 
     if (getTopMangaResponse is DataSuccess) {
       listMangaItem.addAll(getTopMangaResponse.data?.data ?? []);
-      getTopMangaStatus.value = GetTopMangaStatus.loaded;
+      getTopMangaStatus.value = GetMusicChartStatus.loaded;
     }
     if (getTopMangaResponse is DataFailed) {
-      getTopMangaStatus.value = GetTopMangaStatus.failed;
+      getTopMangaStatus.value = GetMusicChartStatus.failed;
     }
   }
 }

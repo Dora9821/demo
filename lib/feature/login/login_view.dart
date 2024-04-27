@@ -1,4 +1,3 @@
-import 'package:demo/consts/colors.dart';
 import 'package:demo/themes/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/login/login_controller.dart';
@@ -18,13 +17,14 @@ class LoginPage extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
-          backgroundColor: themeData.value.color.lightBackground,
+          backgroundColor: Colors.deepPurple.shade400,
+          elevation: 0,
           title: Text(
             title,
             style: themeData.value.text.appbarText,
           ),
         ),
-        backgroundColor: bgDarkColor,
+        backgroundColor: Colors.deepPurple.shade200,
         body: Stack(
           children: [
             SafeArea(
@@ -127,7 +127,7 @@ class LoginPage extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

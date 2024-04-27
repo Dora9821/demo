@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music',
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+            ),
       ),
       // darkTheme: ThemeData.dark().copyWith(
       //   brightness: Brightness.dark,
@@ -47,7 +47,9 @@ class MyApp extends StatelessWidget {
       // ),
       // themeMode: isLight ? ThemeMode.light : ThemeMode.dark,
       getPages: AppRouter.routes,
-      home: const LoginPage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage(
+        title: 'Music',
+      ),
     );
   }
 }

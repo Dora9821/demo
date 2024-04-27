@@ -2,7 +2,9 @@ import 'package:demo/feature/home/home_binding.dart';
 import 'package:demo/feature/login/login_binding.dart';
 import 'package:demo/feature/login/login_view.dart';
 import 'package:demo/feature/home/home_view.dart';
+import 'package:demo/feature/playlist/playlist_screen.dart';
 import 'package:demo/feature/signup/signup_view.dart';
+import 'package:demo/feature/song/song_screen_view.dart';
 import 'package:get/get.dart';
 
 class AppRouter {
@@ -25,6 +27,16 @@ class AppRouter {
       page: () => const HomePage(),
       binding: HomeBinding(),
     ),
+    GetPage(
+      name: AppRouterNamed.song,
+      page: () => const SongScreen(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRouterNamed.playlist,
+      page: () => const PlaylistScreen(),
+      binding: HomeBinding(),
+    ),
   ];
 }
 
@@ -32,4 +44,6 @@ class AppRouterNamed {
   static const login = '/';
   static const signUp = '/signup';
   static const homepage = '/home';
+  static const song = '/song';
+  static const playlist = '/playlist';
 }
