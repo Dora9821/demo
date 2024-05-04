@@ -2,9 +2,9 @@ import 'package:demo/feature/home/home_binding.dart';
 import 'package:demo/feature/login/login_binding.dart';
 import 'package:demo/feature/login/login_view.dart';
 import 'package:demo/feature/home/home_view.dart';
-import 'package:demo/feature/playlist/playlist_screen.dart';
+import 'package:demo/feature/playlist/playlist_page.dart';
 import 'package:demo/feature/signup/signup_view.dart';
-import 'package:demo/feature/song/song_screen_view.dart';
+import 'package:demo/feature/song/song_page_view.dart';
 import 'package:get/get.dart';
 
 class AppRouter {
@@ -29,7 +29,7 @@ class AppRouter {
     ),
     GetPage(
       name: AppRouterNamed.song,
-      page: () => const SongScreen(),
+      page: () => const SongPage(),
       binding: HomeBinding(),
     ),
     GetPage(

@@ -59,8 +59,8 @@ class LoginPage extends StatelessWidget {
                           enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                           fillColor: Colors.grey.shade200,
                           filled: true,
@@ -83,8 +83,8 @@ class LoginPage extends StatelessWidget {
                           enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                           fillColor: Colors.grey.shade200,
                           filled: true,

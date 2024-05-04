@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart' as rxdart;
 
-class SongScreen extends StatefulWidget {
-  const SongScreen({Key? key}) : super(key: key);
+class SongPage extends StatefulWidget {
+  const SongPage({Key? key}) : super(key: key);
 
   @override
-  State<SongScreen> createState() => _SongScreenState();
+  State<SongPage> createState() => _SongPageState();
 }
 
-class _SongScreenState extends State<SongScreen> {
+class _SongPageState extends State<SongPage> {
   AudioPlayer audioPlayer = AudioPlayer();
   Song song = Get.arguments ?? Song.songs[0];
 
