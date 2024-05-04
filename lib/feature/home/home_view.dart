@@ -112,17 +112,23 @@ class _TrendingMusic extends StatelessWidget {
       child: Column(
         children: [
           const Padding(
-            padding: const EdgeInsets.only(right: 20.0),
+            padding: EdgeInsets.only(right: 20.0),
             child: SectionHeader(title: 'Trengding Music'),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.27,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: songs.length,
-              itemBuilder: (context, index) {
-                return SongCard(song: songs[index]);
-              },
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: songs.length,
+                    itemBuilder: (context, index) {
+                      return SongCard(song: songs[index]);
+                    },
+                  ),
+                ),
+              ],
             ),
           )
         ],
