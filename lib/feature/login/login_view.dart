@@ -51,23 +51,29 @@ class LoginPage extends StatelessWidget {
                         height: 50,
                       ),
                       // user name
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: controller.emailController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: controller.emailController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Username',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          hintText: 'Username',
+                          onChanged: controller.onChangeUsername,
+                          validator: controller.validatorUsername,
                         ),
-                        onChanged: controller.onChangeUsername,
-                        validator: controller.validatorUsername,
                       ),
 
                       const SizedBox(
@@ -76,28 +82,34 @@ class LoginPage extends StatelessWidget {
 
                       //password
 
-                      TextFormField(
-                        controller: controller.passwordController,
-                        obscureText: !controller.showPassword.value,
-                        decoration: InputDecoration(
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: controller.passwordController,
+                          obscureText: !controller.showPassword.value,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Password',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                            suffixIcon: GestureDetector(
+                              onTap: controller.showHidePassword,
+                              child: Icon(controller.showPassword.value
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          hintText: 'Password',
-                          suffixIcon: GestureDetector(
-                            onTap: controller.showHidePassword,
-                            child: Icon(controller.showPassword.value
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                          ),
+                          onChanged: controller.onChangePassword,
+                          validator: controller.validatorPassword,
                         ),
-                        onChanged: controller.onChangePassword,
-                        validator: controller.validatorPassword,
                       ),
 
                       const SizedBox(

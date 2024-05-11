@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:demo/consts/colors.dart';
 import 'package:demo/consts/text_style.dart';
 import 'package:demo/feature/widgets/playlist_card.dart';
+import 'package:demo/models/get_chart_response.dart';
+import 'package:demo/models/home_models.dart';
 import 'package:demo/models/playlist_model.dart';
 import 'package:demo/models/song_model.dart';
 import 'package:demo/feature/widgets/section_header.dart';
@@ -14,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +33,12 @@ class _HomePageState extends State<HomePage> {
   final _quantityController = TextEditingController();
   final _priceController = TextEditingController();
   final _colorController = TextEditingController();
+
+  @override
+  void initState() {
+    controller.getPlaylistMusic();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +66,12 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const _DiscoverMusic(),
-              _TrendingMusic(songs: songs),
+              Obx(
+                () => _TrendingMusic(
+                  // ignore: invalid_use_of_protected_member
+                  songs: controller.listTrackItem.value,
+                ),
+              ),
               _PlaylistMusic(playlists: playlists)
             ],
           ),
@@ -103,7 +117,7 @@ class _TrendingMusic extends StatelessWidget {
     required this.songs,
   });
 
-  final List<Song> songs;
+  final List<TrackDetailData?> songs;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +127,7 @@ class _TrendingMusic extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(right: 20.0),
-            child: SectionHeader(title: 'Trengding Music'),
+            child: SectionHeader(title: 'Trending Music'),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.27,

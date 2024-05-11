@@ -45,10 +45,11 @@ class LoginController extends GetxController {
   }
 
   onSubmitLogin() async {
-    FirebaseAuthentication.signInWithEmailAndPassWord(
-      emailController.text,
-      passwordController.text,
-    );
+    Get.toNamed(AppRouterNamed.homepage);
+    // FirebaseAuthentication.signInWithEmailAndPassWord(
+    //   emailController.text,
+    //   passwordController.text,
+    // );
     // return Get.toNamed(
     //   AppRouterNamed.homepage,
     //   arguments: HomeArguments(
