@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:demo/models/get_chart_response.dart';
 import 'package:demo/models/get_top_manga_response.dart';
 import 'package:demo/models/home_models.dart';

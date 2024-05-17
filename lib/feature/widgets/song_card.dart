@@ -1,4 +1,5 @@
 import 'package:demo/models/get_chart_response.dart';
+import 'package:demo/models/song_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,16 @@ class SongCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/song', arguments: song);
+        Get.toNamed(
+          '/song',
+          arguments: SongPageArgument(
+            id: song?.id.toString(),
+            title: song?.title,
+            url: song?.link,
+            artistName: song?.artist?.name,
+            coverUrl: song?.album?.coverBig,
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(right: 10),

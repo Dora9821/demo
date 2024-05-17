@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:demo/models/signup_request.dart';
 import 'package:demo/models/signup_response.dart';
 import 'package:demo/network/apis/signup_apis.dart';

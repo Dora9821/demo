@@ -9,35 +9,31 @@ class GetMusicChartResponse {
       {this.tracks, this.albums, this.artists, this.playlists, this.podcasts});
 
   GetMusicChartResponse.fromJson(Map<String, dynamic> json) {
-    tracks =
-        json['tracks'] != null ? new Tracks.fromJson(json['tracks']) : null;
-    albums =
-        json['albums'] != null ? new Tracks.fromJson(json['albums']) : null;
-    artists =
-        json['artists'] != null ? new Tracks.fromJson(json['artists']) : null;
-    playlists = json['playlists'] != null
-        ? new Tracks.fromJson(json['playlists'])
-        : null;
+    tracks = json['tracks'] != null ? Tracks.fromJson(json['tracks']) : null;
+    albums = json['albums'] != null ? Tracks.fromJson(json['albums']) : null;
+    artists = json['artists'] != null ? Tracks.fromJson(json['artists']) : null;
+    playlists =
+        json['playlists'] != null ? Tracks.fromJson(json['playlists']) : null;
     podcasts =
-        json['podcasts'] != null ? new Tracks.fromJson(json['podcasts']) : null;
+        json['podcasts'] != null ? Tracks.fromJson(json['podcasts']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.tracks != null) {
-      data['tracks'] = this.tracks!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (tracks != null) {
+      data['tracks'] = tracks!.toJson();
     }
-    if (this.albums != null) {
-      data['albums'] = this.albums!.toJson();
+    if (albums != null) {
+      data['albums'] = albums!.toJson();
     }
-    if (this.artists != null) {
-      data['artists'] = this.artists!.toJson();
+    if (artists != null) {
+      data['artists'] = artists!.toJson();
     }
-    if (this.playlists != null) {
-      data['playlists'] = this.playlists!.toJson();
+    if (playlists != null) {
+      data['playlists'] = playlists!.toJson();
     }
-    if (this.podcasts != null) {
-      data['podcasts'] = this.podcasts!.toJson();
+    if (podcasts != null) {
+      data['podcasts'] = podcasts!.toJson();
     }
     return data;
   }
@@ -53,18 +49,18 @@ class Tracks {
     if (json['data'] != null) {
       data = <TrackDetailData>[];
       json['data'].forEach((v) {
-        data!.add(new TrackDetailData.fromJson(v));
+        data!.add(TrackDetailData.fromJson(v));
       });
     }
     total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['total'] = this.total;
+    data['total'] = total;
     return data;
   }
 }
@@ -119,34 +115,33 @@ class TrackDetailData {
     preview = json['preview'];
     md5Image = json['md5_image'];
     position = json['position'];
-    artist =
-        json['artist'] != null ? new Artist.fromJson(json['artist']) : null;
-    album = json['album'] != null ? new Album.fromJson(json['album']) : null;
+    artist = json['artist'] != null ? Artist.fromJson(json['artist']) : null;
+    album = json['album'] != null ? Album.fromJson(json['album']) : null;
     type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['title_short'] = this.titleShort;
-    data['title_version'] = this.titleVersion;
-    data['link'] = this.link;
-    data['duration'] = this.duration;
-    data['rank'] = this.rank;
-    data['explicit_lyrics'] = this.explicitLyrics;
-    data['explicit_content_lyrics'] = this.explicitContentLyrics;
-    data['explicit_content_cover'] = this.explicitContentCover;
-    data['preview'] = this.preview;
-    data['md5_image'] = this.md5Image;
-    data['position'] = this.position;
-    if (this.artist != null) {
-      data['artist'] = this.artist!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['title_short'] = titleShort;
+    data['title_version'] = titleVersion;
+    data['link'] = link;
+    data['duration'] = duration;
+    data['rank'] = rank;
+    data['explicit_lyrics'] = explicitLyrics;
+    data['explicit_content_lyrics'] = explicitContentLyrics;
+    data['explicit_content_cover'] = explicitContentCover;
+    data['preview'] = preview;
+    data['md5_image'] = md5Image;
+    data['position'] = position;
+    if (artist != null) {
+      data['artist'] = artist!.toJson();
     }
-    if (this.album != null) {
-      data['album'] = this.album!.toJson();
+    if (album != null) {
+      data['album'] = album!.toJson();
     }
-    data['type'] = this.type;
+    data['type'] = type;
     return data;
   }
 }
@@ -192,18 +187,18 @@ class Artist {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['link'] = this.link;
-    data['picture'] = this.picture;
-    data['picture_small'] = this.pictureSmall;
-    data['picture_medium'] = this.pictureMedium;
-    data['picture_big'] = this.pictureBig;
-    data['picture_xl'] = this.pictureXl;
-    data['radio'] = this.radio;
-    data['tracklist'] = this.tracklist;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['link'] = link;
+    data['picture'] = picture;
+    data['picture_small'] = pictureSmall;
+    data['picture_medium'] = pictureMedium;
+    data['picture_big'] = pictureBig;
+    data['picture_xl'] = pictureXl;
+    data['radio'] = radio;
+    data['tracklist'] = tracklist;
+    data['type'] = type;
     return data;
   }
 }
@@ -246,17 +241,17 @@ class Album {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['cover'] = this.cover;
-    data['cover_small'] = this.coverSmall;
-    data['cover_medium'] = this.coverMedium;
-    data['cover_big'] = this.coverBig;
-    data['cover_xl'] = this.coverXl;
-    data['md5_image'] = this.md5Image;
-    data['tracklist'] = this.tracklist;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['cover'] = cover;
+    data['cover_small'] = coverSmall;
+    data['cover_medium'] = coverMedium;
+    data['cover_big'] = coverBig;
+    data['cover_xl'] = coverXl;
+    data['md5_image'] = md5Image;
+    data['tracklist'] = tracklist;
+    data['type'] = type;
     return data;
   }
 }
@@ -497,11 +492,11 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['tracklist'] = this.tracklist;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['tracklist'] = tracklist;
+    data['type'] = type;
     return data;
   }
 }

@@ -5,6 +5,7 @@ import 'package:demo/feature/home/home_view.dart';
 import 'package:demo/feature/playlist/playlist_page.dart';
 import 'package:demo/feature/setting/setting_page_view.dart';
 import 'package:demo/feature/signup/signup_view.dart';
+import 'package:demo/feature/song/song_page_binding.dart';
 import 'package:demo/feature/song/song_page_view.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +32,7 @@ class AppRouter {
     GetPage(
       name: AppRouterNamed.song,
       page: () => const SongPage(),
-      binding: HomeBinding(),
+      binding: SongPageBingding(),
     ),
     GetPage(
       name: AppRouterNamed.playlist,

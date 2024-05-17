@@ -1,23 +1,20 @@
+// ignore_for_file: unused_field, unused_local_variable, unnecessary_import
+
 import 'dart:ui';
 
-import 'package:demo/consts/colors.dart';
 import 'package:demo/consts/text_style.dart';
 import 'package:demo/feature/widgets/playlist_card.dart';
 import 'package:demo/models/get_chart_response.dart';
-import 'package:demo/models/home_models.dart';
 import 'package:demo/models/playlist_model.dart';
-import 'package:demo/models/song_model.dart';
 import 'package:demo/feature/widgets/section_header.dart';
 import 'package:demo/feature/widgets/song_card.dart';
 import 'package:demo/themes/theme_controller.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/home/home_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,8 +41,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
     final themeData = themeController.themeData;
-    List<Song> songs = Song.songs;
-    List<Playlist> playlists = Playlist.playlists;
 
     return Container(
       decoration: BoxDecoration(
@@ -72,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                   songs: controller.listTrackItem.value,
                 ),
               ),
-              _PlaylistMusic(playlists: playlists)
+              const _PlaylistMusic(playlists: [])
             ],
           ),
         ),
@@ -83,7 +78,6 @@ class _HomePageState extends State<HomePage> {
 
 class _PlaylistMusic extends StatelessWidget {
   const _PlaylistMusic({
-    super.key,
     required this.playlists,
   });
 
@@ -113,7 +107,6 @@ class _PlaylistMusic extends StatelessWidget {
 
 class _TrendingMusic extends StatelessWidget {
   const _TrendingMusic({
-    super.key,
     required this.songs,
   });
 
@@ -152,9 +145,7 @@ class _TrendingMusic extends StatelessWidget {
 }
 
 class _DiscoverMusic extends StatelessWidget {
-  const _DiscoverMusic({
-    super.key,
-  });
+  const _DiscoverMusic();
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +159,7 @@ class _DiscoverMusic extends StatelessWidget {
             'Enjoy your favourite music',
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(
@@ -201,9 +192,7 @@ class _DiscoverMusic extends StatelessWidget {
 }
 
 class _CustomNavBar extends StatelessWidget {
-  const _CustomNavBar({
-    super.key,
-  });
+  const _CustomNavBar();
 
   @override
   Widget build(BuildContext context) {
@@ -237,9 +226,7 @@ class _CustomNavBar extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _CustomAppBar({
-    super.key,
-  });
+  const _CustomAppBar();
 
   @override
   Widget build(BuildContext context) {

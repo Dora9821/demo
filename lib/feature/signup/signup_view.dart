@@ -1,4 +1,5 @@
 import 'package:demo/consts/colors.dart';
+import 'package:demo/consts/text_style.dart';
 import 'package:demo/themes/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/feature/signup/signup_controller.dart';
@@ -32,16 +33,27 @@ class _MyCustomFormState extends State<MyCustomForm> {
     final themeController = Get.find<ThemeController>();
     final themeData = themeController.themeData;
 
-    return Obx(
-      () => Scaffold(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.deepPurple.shade800.withOpacity(0.8),
+            Colors.deepPurple.shade200.withOpacity(0.8),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: themeData.value.color.lightBackground,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           title: Text(
-            'Đăng ký',
-            style: themeData.value.text.appbarText,
+            "Sign up",
+            style: ourStyle(),
           ),
         ),
-        backgroundColor: bgDarkColor,
         body: Stack(
           children: [
             SafeArea(
@@ -50,34 +62,66 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   key: controller.formKey,
                   child: Column(
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          themeController.changeTheme();
-                        },
-                        child: const Text("Change Theme"),
-                      ),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     themeController.changeTheme();
+                      //   },
+                      //   child: const Text("Change Theme"),
+                      // ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: controller.emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Username',
-                            border: OutlineInputBorder(),
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Username',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
+                      ),
+
+                      const SizedBox(
+                        height: 20,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          controller: controller.passwordController,
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: controller.emailController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Username',
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
+                      ),
+
+                      const SizedBox(
+                        height: 20,
                       ),
                       Center(
                         child: ElevatedButton(

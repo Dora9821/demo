@@ -1,61 +1,35 @@
+// ignore_for_file: unused_element
+
+import 'package:demo/feature/song/song_page_controller.dart';
 import 'package:demo/feature/widgets/player_buttons.dart';
 import 'package:demo/feature/widgets/seekbar.dart';
 import 'package:demo/models/song_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:rxdart/rxdart.dart' as rxdart;
 
 class SongPage extends StatefulWidget {
-  const SongPage({Key? key}) : super(key: key);
+  const SongPage({super.key});
 
   @override
   State<SongPage> createState() => _SongPageState();
 }
 
 class _SongPageState extends State<SongPage> {
-  AudioPlayer audioPlayer = AudioPlayer();
-  Song song = Get.arguments ?? Song.songs[0];
+  SongPageArgument? argument = Get.arguments as SongPageArgument;
+  final controller = Get.find<SongPageController>();
 
   @override
   void initState() {
     super.initState();
-
-    audioPlayer.setAudioSource(
-      ConcatenatingAudioSource(
-        children: [
-          AudioSource.uri(
-            Uri.parse('asset:///${song.url}'),
-          ),
-          AudioSource.uri(
-            Uri.parse('asset:///${Song.songs[1].url}'),
-          ),
-          AudioSource.uri(
-            Uri.parse('asset:///${Song.songs[2].url}'),
-          ),
-        ],
-      ),
-    );
+    controller.getTrackDetailData(argument?.id ?? "");
   }
 
   @override
   void dispose() {
-    audioPlayer.dispose();
+    controller.onDispose();
     super.dispose();
   }
-
-  Stream<SeekBarData> get _seekBarDataStream =>
-      rxdart.Rx.combineLatest2<Duration, Duration?, SeekBarData>(
-          audioPlayer.positionStream, audioPlayer.durationStream, (
-        Duration position,
-        Duration? duration,
-      ) {
-        return SeekBarData(
-          position,
-          duration ?? Duration.zero,
-        );
-      });
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +42,16 @@ class _SongPageState extends State<SongPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            song.coverUrl,
+          Image.network(
+            argument?.coverUrl ?? "",
             fit: BoxFit.cover,
           ),
           const _BackgroundFilter(),
           _MusicPlayer(
-              song: song,
-              seekBarDataStream: _seekBarDataStream,
-              audioPlayer: audioPlayer),
+            song: argument,
+            seekBarDataStream: controller.seekBarDataStream,
+            audioPlayer: controller.audioPlayer,
+          ),
         ],
       ),
     );
@@ -91,7 +66,7 @@ class _MusicPlayer extends StatelessWidget {
     required this.audioPlayer,
   }) : _seekBarDataStream = seekBarDataStream;
 
-  final Song song;
+  final SongPageArgument? song;
   final Stream<SeekBarData> _seekBarDataStream;
   final AudioPlayer audioPlayer;
 
@@ -104,7 +79,7 @@ class _MusicPlayer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            song.title,
+            song?.title ?? "",
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -114,7 +89,7 @@ class _MusicPlayer extends StatelessWidget {
             height: 10,
           ),
           Text(
-            song.description,
+            song?.artistName ?? "",
             maxLines: 2,
             style: Theme.of(context)
                 .textTheme

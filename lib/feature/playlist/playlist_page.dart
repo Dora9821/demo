@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import, use_super_parameters
+
 import 'package:demo/models/playlist_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ class PlaylistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Playlist playlists = Playlist.playlists[0];
+    Playlist playlists = Playlist(title: 'POP', songs: [], imageUrl: '');
 
     return Container(
       decoration: BoxDecoration(
@@ -53,7 +55,6 @@ class PlaylistScreen extends StatelessWidget {
 
 class _PlaylistSong extends StatelessWidget {
   const _PlaylistSong({
-    super.key,
     required this.playlists,
   });
 
@@ -75,14 +76,14 @@ class _PlaylistSong extends StatelessWidget {
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           title: Text(
-            playlists.songs[index].title,
+            playlists.songs[index].title ?? "",
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            '${playlists.songs[index].description} ',
+            '${playlists.songs[index].artistName} ',
             style: const TextStyle(
               color: Colors.white,
             ),
@@ -98,9 +99,7 @@ class _PlaylistSong extends StatelessWidget {
 }
 
 class _PlayOrShuffleSwitch extends StatefulWidget {
-  const _PlayOrShuffleSwitch({
-    super.key,
-  });
+  const _PlayOrShuffleSwitch();
 
   @override
   State<_PlayOrShuffleSwitch> createState() => _PlayOrShuffleSwitchState();
@@ -199,7 +198,6 @@ class _PlayOrShuffleSwitchState extends State<_PlayOrShuffleSwitch> {
 
 class _PlaylistInformation extends StatelessWidget {
   const _PlaylistInformation({
-    super.key,
     required this.playlists,
   });
 
