@@ -5,6 +5,7 @@ import 'package:demo/models/get_top_manga_response.dart';
 import 'package:demo/models/home_models.dart';
 import 'package:demo/network/configs/data_state.dart';
 import 'package:demo/network/repositories/home_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum GetTopMangaStatus {
@@ -38,7 +39,9 @@ class HomeController extends GetxController {
   final getMusicChartStatus = GetMusicChartStatus.initial.obs;
   final listTrackItem = <TrackDetailData?>[].obs;
   final getMusicPlaylistStatus = GetMusicPlaylistStatus.initial.obs;
+  late PageController pageController;
 
+  @override
   void getPlaylistMusic() async {
     getMusicChartStatus.value = GetMusicChartStatus.isLoading;
     final getMusicChartResponse = await HomeRepository().getMusicChart();
