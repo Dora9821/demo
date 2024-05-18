@@ -3,7 +3,10 @@
 import 'dart:ui';
 
 import 'package:demo/consts/text_style.dart';
+import 'package:demo/feature/song/song_page_controller.dart';
+import 'package:demo/feature/widgets/player_buttons.dart';
 import 'package:demo/feature/widgets/playlist_card.dart';
+import 'package:demo/feature/widgets/seekbar.dart';
 import 'package:demo/models/get_chart_response.dart';
 import 'package:demo/models/playlist_model.dart';
 import 'package:demo/feature/widgets/section_header.dart';
@@ -41,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final themeController = Get.find<ThemeController>();
     final themeData = themeController.themeData;
+    final songController = Get.find<SongPageController>();
 
     return Container(
       decoration: BoxDecoration(
@@ -57,19 +61,86 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         appBar: const _CustomAppBar(),
         bottomNavigationBar: const _CustomNavBar(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const _DiscoverMusic(),
-              Obx(
-                () => _TrendingMusic(
-                  // ignore: invalid_use_of_protected_member
-                  songs: controller.listTrackItem.value,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const _DiscoverMusic(),
+                    Obx(
+                      () => _TrendingMusic(
+                        // ignore: invalid_use_of_protected_member
+                        songs: controller.listTrackItem.value,
+                      ),
+                    ),
+                    const _PlaylistMusic(playlists: []),
+                  ],
                 ),
               ),
-              const _PlaylistMusic(playlists: [])
-            ],
-          ),
+            ),
+            Obx(() => StreamBuilder<bool>(
+                stream: songController.audioPlayer.value.playingStream,
+                builder: (context, snapshot) {
+                  if (snapshot.data ?? false) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 50.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            songController.detailTrackResponse.value?.title ??
+                                "",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            songController
+                                    .detailTrackResponse.value?.artist.name ??
+                                "",
+                            maxLines: 2,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          StreamBuilder<SeekBarData>(
+                            stream: songController.seekBarDataStream,
+                            builder: (context, snapshot) {
+                              final positionData = snapshot.data;
+                              return SeekBar(
+                                position:
+                                    positionData?.position ?? Duration.zero,
+                                duration:
+                                    positionData?.duration ?? Duration.zero,
+                                onChangedEnd:
+                                    songController.audioPlayer.value.seek,
+                              );
+                            },
+                          ),
+                          PlayerButtons(
+                              audioPlayer: songController.audioPlayer.value),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                })),
+          ],
         ),
       ),
     );

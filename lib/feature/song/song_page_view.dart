@@ -22,12 +22,13 @@ class _SongPageState extends State<SongPage> {
   @override
   void initState() {
     super.initState();
+
     controller.getTrackDetailData(argument?.id ?? "");
   }
 
   @override
   void dispose() {
-    controller.onDispose();
+    // controller.onDispose();
     super.dispose();
   }
 
@@ -50,7 +51,7 @@ class _SongPageState extends State<SongPage> {
           _MusicPlayer(
             song: argument,
             seekBarDataStream: controller.seekBarDataStream,
-            audioPlayer: controller.audioPlayer,
+            audioPlayer: controller.audioPlayer.value,
           ),
         ],
       ),

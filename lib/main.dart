@@ -1,3 +1,4 @@
+import 'package:demo/feature/song/song_page_controller.dart';
 import 'package:demo/firebase_options.dart';
 import 'package:demo/themes/theme_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(ThemeController(), permanent: true);
+    Get.put(SongPageController(), permanent: true);
     // final isLight = SchedulerBinding.instance?.window.platformBrightness ==
     //     Brightness.light;
     // final themeController = Get.put(ThemeController(), permanent: true);
