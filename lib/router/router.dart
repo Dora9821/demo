@@ -32,7 +32,7 @@ class AppRouter {
     GetPage(
       name: AppRouterNamed.song,
       page: () => const SongPage(),
-      binding: SongPageBingding(),
+      // binding: SongPageBingding(),
     ),
     GetPage(
       name: AppRouterNamed.playlist,

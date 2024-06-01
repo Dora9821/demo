@@ -11,22 +11,29 @@ enum GetTrackDetailDataState { loading, success, failed }
 class SongPageController extends GetxController {
   final _getTrackDetailDataState = GetTrackDetailDataState.loading.obs;
   Rx<DetailTrackResponse?> detailTrackResponse = Rx(null);
-  AudioPlayer audioPlayer = AudioPlayer();
+  Rx<AudioPlayer> audioPlayer = AudioPlayer().obs;
 
   GetTrackDetailDataState get getTrackDetailDataState =>
       _getTrackDetailDataState.value;
+  Rx<String> currentID = "".obs;
 
   set getTrackDetailDataState(GetTrackDetailDataState value) =>
       _getTrackDetailDataState.value = value;
 
   void getTrackDetailData(String id) async {
+    if (currentID.value == id) {
+      return;
+    } else {
+      currentID.value = id;
+    }
+
     _getTrackDetailDataState.value = GetTrackDetailDataState.loading;
     SongRepository().getTrackDetailData(id).then((data) {
       if (data is DataSuccess) {
         detailTrackResponse.value = data?.data;
         getTrackDetailDataState = GetTrackDetailDataState.success;
-        print(detailTrackResponse.value?.preview);
-        audioPlayer.setAudioSource(
+
+        audioPlayer.value.setAudioSource(
           ConcatenatingAudioSource(
             children: [
               AudioSource.uri(
@@ -41,13 +48,13 @@ class SongPageController extends GetxController {
     });
   }
 
-  onDispose() {
-    audioPlayer.dispose();
-  }
+  // onDispose() {
+  //   audioPlayer.value.dispose();
+  // }
 
   Stream<SeekBarData> get seekBarDataStream =>
       rxdart.Rx.combineLatest2<Duration, Duration?, SeekBarData>(
-          audioPlayer.positionStream, audioPlayer.durationStream, (
+          audioPlayer.value.positionStream, audioPlayer.value.durationStream, (
         Duration position,
         Duration? duration,
       ) {
