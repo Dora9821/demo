@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:demo/models/get_chart_response.dart';
+import 'package:demo/models/get_playlist_chart_response.dart';
 import 'package:demo/models/get_top_manga_response.dart';
 import 'package:demo/models/home_models.dart';
 import 'package:demo/network/apis/home_api.dart';
@@ -34,4 +35,14 @@ class HomeRepository {
       return DataFailed(data: responseFromApi);
     }
   }
+
+  //   Future<DataState<GetPlaylistChartResponse>> getPlaylistChart() async {
+  //   final responseFromApi = await HomeApiRetrofit(Dio()).getPlaylistChart();
+
+  //   if (responseFromApi.tracks != null) {
+  //     return DataSuccess(data: responseFromApi);
+  //   } else {
+  //     return DataFailed(data: responseFromApi);
+  //   }
+  // }
 }
